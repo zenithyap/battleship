@@ -78,4 +78,18 @@ describe('Gameboard', () => {
             expect(() => gameboard.placeShip(ship, ROW, COL, 'horizontal')).toThrow();
         });
     });
+
+    describe('receiveAttack function', () => {
+        beforeEach(() => {
+            const ship = new Ship(2);
+            placeShip(ship, 0, 0, 'vertical');
+        });
+
+        test('ship should be sunk after 2 hits', () => {
+            gameboard.receiveAttack(0, 0);
+            gameboard.receiveAttack(1, 0);
+
+            expect(ship.isSunk()).toBe(true);
+        });
+    });
 });

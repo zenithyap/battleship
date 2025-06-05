@@ -41,6 +41,10 @@ class Gameboard {
             }
         }
     }
+
+    receiveAttack(row, col) {
+        
+    }
 }
 
 export default Gameboard;
