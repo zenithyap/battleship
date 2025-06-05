@@ -20,11 +20,11 @@ describe('Gameboard', () => {
             }
         });
 
-        test('gameboard cells should have default ship and hit status', () => {
+        test('gameboard cells should have null ship ref and hit status', () => {
             for (let i = 0; i < Gameboard.ROWS; i++) {
                 for (let j = 0; j < Gameboard.COLS; j++) {
                     const cell = gameboard.grid[i][j];
-                    expect(cell).toHaveProperty('hasShip', false);
+                    expect(cell).toHaveProperty('shipRef', null);
                     expect(cell).toHaveProperty('isHit', false);
                 }
             }
@@ -38,9 +38,9 @@ describe('Gameboard', () => {
             const COL = 1;
             const ship = new Ship(SHIP_LENGTH);
             gameboard.placeShip(ship, ROW, COL, 'vertical');
-            expect(gameboard.grid[1][1].hasShip).toBe(true);
-            expect(gameboard.grid[2][1].hasShip).toBe(true);
-            expect(gameboard.grid[3][1].hasShip).toBe(false);
+            expect(gameboard.grid[1][1].shipRef).toBe(ship);
+            expect(gameboard.grid[2][1].shipRef).toBe(ship);
+            expect(gameboard.grid[3][1].shipRef).toBe(null);
         });
 
         test('ship of length 4 should be place horizontally', () => {
@@ -50,7 +50,7 @@ describe('Gameboard', () => {
             const ship = new Ship(SHIP_LENGTH);
             gameboard.placeShip(ship, ROW, COL, 'horizontal');
             for (let i = 0; i < SHIP_LENGTH; i++) {
-                expect(gameboard.grid[ROW][COL + i].hasShip).toBe(true);
+                expect(gameboard.grid[ROW][COL + i].shipRef).toBe(ship);
             }
         });
 

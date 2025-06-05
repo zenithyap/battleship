@@ -8,7 +8,7 @@ class Gameboard {
         for (let i = 0; i < Gameboard.ROWS; i++) {
             const row = [];
             for (let j = 0; j < Gameboard.COLS; j++) {
-                row.push({hasShip: false, isHit: false});
+                row.push({shipRef: null, isHit: false});
             }
             this._grid.push(row);
         }
@@ -35,9 +35,9 @@ class Gameboard {
 
         for (let i = 0; i < shipLength; i++) {
             if (orientation === 'vertical') {
-                this._grid[row + i][col].hasShip = true;
+                this._grid[row + i][col].shipRef = ship;
             } else {
-                this._grid[row][col + i].hasShip = true;
+                this._grid[row][col + i].shipRef = ship;
             }
         }
     }
