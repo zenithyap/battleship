@@ -58,4 +58,20 @@ describe('Gameboard', () => {
         const ship = new Ship(SHIP_LENGTH);
         expect(() => gameboard.placeShip(ship, ROW, COL, 'horizontal')).toThrow();
     });
+
+    test('should throw error if part of vertical ship is outside grid', () => {
+        const SHIP_LENGTH = 2;
+        const ROW = 9;
+        const COL = 9;
+        const ship = new Ship(SHIP_LENGTH);
+        expect(() => gameboard.placeShip(ship, ROW, COL, 'vertical')).toThrow();
+    });
+
+    test('should throw error if part of horizontal ship is outside grid', () => {
+        const SHIP_LENGTH = 2;
+        const ROW = 0;
+        const COL = 9;
+        const ship = new Ship(SHIP_LENGTH);
+        expect(() => gameboard.placeShip(ship, ROW, COL, 'horizontal')).toThrow();
+    });
 });

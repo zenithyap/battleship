@@ -20,9 +20,9 @@ class Gameboard {
 
     #isWithinGrid(shipLength, row, col, orientation) {
         if (orientation === 'vertical') {
-            return row >= 0 && row + shipLength < Gameboard.ROWS && col >= 0 && col < Gameboard.COLS;
+            return row >= 0 && row + shipLength - 1 < Gameboard.ROWS && col >= 0 && col < Gameboard.COLS;
         } else {
-            return col >= 0 && col + shipLength < Gameboard.COLS && row >= 0 && row < Gameboard.ROWS;
+            return col >= 0 && col + shipLength - 1 < Gameboard.COLS && row >= 0 && row < Gameboard.ROWS;
         }
     }
 
