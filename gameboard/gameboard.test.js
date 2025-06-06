@@ -116,4 +116,25 @@ describe('Gameboard', () => {
             expect(gameboard.missed).toContainEqual([5, 5]);
         });
     });
+
+    describe('isWin function', () => {
+        beforeEach(() => {
+            const ship1 = new Ship(2);
+            const ship2 = new Ship(1);
+
+            gameboard.placeShip(ship1, 0, 0, 'horizontal');
+            gameboard.placeShip(ship2, 4, 4, 'horizontal');
+        });
+
+        test ('should return false if any ship not sunk', () => {
+            expect(gameboard.isWin()).toBe(false);
+        });
+
+        test('should return true if all ships are sunk', () => {
+            gameboard.receiveAttack(0, 0);
+            gameboard.receiveAttack(0, 1);
+            gameboard.receiveAttack(4, 4);
+            expect(gameboard.isWin()).toBe(true);
+        });
+    });
 });

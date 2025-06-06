@@ -5,6 +5,7 @@ class Gameboard {
     constructor() {
         this._grid = [];
         this._missed = [];
+        this._ships = [];
 
         for (let i = 0; i < Gameboard.ROWS; i++) {
             const row = [];
@@ -60,6 +61,8 @@ class Gameboard {
             const curCol = col + colOffset * i;
             this._grid[curRow][curCol].shipRef = ship;
         }
+
+        this._ships.push(ship);
     }
 
     receiveAttack(row, col) {
@@ -71,6 +74,10 @@ class Gameboard {
         } else if (!ship && !cell.isHit) {
             this._missed.push([row, col]);
         }
+    }
+
+    isWin() {
+        return this._ships.every(ship => ship.isSunk());
     }
 }
 
