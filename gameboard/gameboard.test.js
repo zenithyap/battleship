@@ -77,6 +77,13 @@ describe('Gameboard', () => {
             const ship = new Ship(SHIP_LENGTH);
             expect(() => gameboard.placeShip(ship, ROW, COL, 'horizontal')).toThrow();
         });
+
+        test('ship should not be allowed to be placed overlapping each other', () => {
+            const ship1 = new Ship(2);
+            const ship2 = new Ship(2);
+            gameboard.placeShip(ship1, 0, 0, 'vertical');
+            expect(() => gameboard.placeShip(ship2, 1, 0, 'horizontal')).toThrow();
+        });
     });
 
     describe('receiveAttack function', () => {
