@@ -4,6 +4,7 @@ class Gameboard {
 
     constructor() {
         this._grid = [];
+        this._missed = [];
 
         for (let i = 0; i < Gameboard.ROWS; i++) {
             const row = [];
@@ -16,6 +17,10 @@ class Gameboard {
 
     get grid() {
         return this._grid;
+    }
+
+    get missed() {
+        return this._missed;
     }
 
     #isWithinGrid(shipLength, row, col, orientation) {
@@ -43,7 +48,14 @@ class Gameboard {
     }
 
     receiveAttack(row, col) {
-        
+        const cell = this._grid[row][col];
+        const ship = cell.shipRef;
+        if (ship && !cell.isHit) {
+            ship.hit();
+            cell.isHit = true;
+        } else if (!ship && !cell.isHit) {
+            this._missed.push([row, col]);
+        }
     }
 }
 

@@ -80,16 +80,33 @@ describe('Gameboard', () => {
     });
 
     describe('receiveAttack function', () => {
+        let ship;
+
         beforeEach(() => {
-            const ship = new Ship(2);
-            placeShip(ship, 0, 0, 'vertical');
+            ship = new Ship(2);
+            gameboard.placeShip(ship, 0, 0, 'vertical');
         });
 
-        test('ship should be sunk after 2 hits', () => {
+        test('ship of length 2 should be sunk after 2 hits', () => {
             gameboard.receiveAttack(0, 0);
             gameboard.receiveAttack(1, 0);
 
             expect(ship.isSunk()).toBe(true);
+        });
+
+        test('ship should not sink after 2 hits at the same coordinates', () => {
+            gameboard.receiveAttack(0, 0);
+            gameboard.receiveAttack(0, 0);
+
+            expect(ship.isSunk()).toBe(false);
+        });
+
+        test('should record miss attack', () => {
+            gameboard.receiveAttack(1, 1);
+            gameboard.receiveAttack(5, 5);
+
+            expect(gameboard.missed).toContainEqual([1, 1]);
+            expect(gameboard.missed).toContainEqual([5, 5]);
         });
     });
 });
