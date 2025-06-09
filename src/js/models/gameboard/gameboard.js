@@ -24,6 +24,14 @@ class Gameboard {
         return this._missed;
     }
 
+    hasShipAt(row, col) {
+        return this._grid[row][col].shipRef !== null;
+    }
+
+    isHitAt(row, col) {
+        return this._grid[row][col].isHit;
+    }
+
     #isWithinGrid(shipLength, row, col, orientation) {
         if (orientation === 'vertical') {
             return row >= 0 && row + shipLength - 1 < Gameboard.ROWS && col >= 0 && col < Gameboard.COLS;
