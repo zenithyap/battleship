@@ -1,11 +1,11 @@
 const domController = (function() {
-    const body = document.querySelector('body');
+    const playerOneBoard  = document.querySelector('.player-one-board');
+    const playerTwoBoard  = document.querySelector('.player-two-board');
 
     function renderBoard(player) {
-        body.textContent = '';
+        const board = player.id === 'player1' ? playerOneBoard : playerTwoBoard;
+        board.textContent = '';
         const playerBoard = player.gameboard;
-        const board = document.createElement('div');
-        board.classList.add('board');
 
         for (let i = 0; i < 10; i++) {
             const row = document.createElement('div');
@@ -33,8 +33,6 @@ const domController = (function() {
             }
             board.appendChild(row);
         };
-
-        body.appendChild(board);
     };
 
     return { renderBoard };

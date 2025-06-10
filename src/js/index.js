@@ -3,8 +3,8 @@ import domController from '../js/controllers/domController';
 import Player from './models/player/player';
 import Ship from './models/ship/ship';
 
-const playerOne = new Player();
-const playerTwo = new Player();
+const playerOne = new Player('player1');
+const playerTwo = new Player('player2', 'computer');
 
 const playerOneBoard = playerOne.gameboard;
 
@@ -21,3 +21,4 @@ playerOneBoard.placeShip(submarine, 3, 0, 'horizontal');
 playerOneBoard.placeShip(destroyer, 4, 0, 'horizontal');
 
 domController.renderBoard(playerOne);
+domController.renderBoard(playerTwo);
