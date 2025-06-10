@@ -4,6 +4,21 @@
     box-sizing: border-box;
 }
 
+.title {
+    text-align: center;
+    padding: 24px;
+}
+
+.player-one-container,
+.player-two-container {
+    text-align: center;
+}
+
+.player-one-board,
+.player-two-board {
+    margin-bottom: 24px;
+}
+
 .board-container {
     display: flex;
     justify-content: center;

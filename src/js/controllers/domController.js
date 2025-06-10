@@ -1,6 +1,15 @@
 const domController = (function() {
     const playerOneBoard  = document.querySelector('.player-one-board');
     const playerTwoBoard  = document.querySelector('.player-two-board');
+    const message = document.querySelector('.message');
+
+    function displayPlaceShipMessage(player) {
+        message.textContent = 'Choose ships coordinates' + player.id === 'player1' ? '(Player 1)' : ('Player 2');
+    }
+
+    function clearMessage() {
+        message.textContent = '';
+    }
 
     function renderBoard(player) {
         const board = player.id === 'player1' ? playerOneBoard : playerTwoBoard;
