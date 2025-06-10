@@ -3,7 +3,7 @@ const domController = (function() {
     const playerTwoBoard  = document.querySelector('.player-two-board');
     const message = document.querySelector('.message');
 
-    function displayPlaceShipMessage(player) {
+    function displayPlaceShipMessage(player, shipName) {
         message.textContent = 'Choose ships coordinates' + player.id === 'player1' ? '(Player 1)' : ('Player 2');
     }
 
