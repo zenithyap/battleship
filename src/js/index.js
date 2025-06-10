@@ -14,11 +14,11 @@ const cruiser = new Ship(3);
 const submarine = new Ship(3);
 const destroyer = new Ship(2);
 
-playerOneBoard.placeShip(carrier, 0, 0, 'horizontal');
-playerOneBoard.placeShip(battleship, 1, 0, 'horizontal');
-playerOneBoard.placeShip(cruiser, 2, 0, 'horizontal');
-playerOneBoard.placeShip(submarine, 3, 0, 'horizontal');
-playerOneBoard.placeShip(destroyer, 4, 0, 'horizontal');
+// playerOneBoard.placeShip(carrier, 0, 0, 'horizontal');
+// playerOneBoard.placeShip(battleship, 1, 0, 'horizontal');
+// playerOneBoard.placeShip(cruiser, 2, 0, 'horizontal');
+// playerOneBoard.placeShip(submarine, 3, 0, 'horizontal');
+// playerOneBoard.placeShip(destroyer, 4, 0, 'horizontal');
 
 domController.renderBoard(playerOne);
 domController.renderBoard(playerTwo);

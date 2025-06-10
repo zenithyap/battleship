@@ -34,6 +34,14 @@
     height: 40px;
 }
 
+.cell.available {
+    background-color: green;
+}
+
+.cell.unavailable {
+    background-color: red;
+}
+
 .cell.missed {
     background-color: blue;
 }

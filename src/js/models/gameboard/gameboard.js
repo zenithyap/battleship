@@ -40,7 +40,10 @@ class Gameboard {
         }
     }
 
-    #hasOverlapShips(shipLength, row, col, rowOffset, colOffset) {
+    #hasOverlapShips(shipLength, row, col, orientation) {
+        const rowOffset = orientation === 'vertical' ? 1 : 0;
+        const colOffset = orientation === 'horizontal' ? 1 : 0;
+
         for (let i = 0; i < shipLength; i++) {
             const curRow = row + rowOffset * i;
             const curCol = col + colOffset * i;
@@ -50,6 +53,11 @@ class Gameboard {
         return false;
     }
 
+    isValidPosition(shipLength, row, col, orientation) {
+        return this.#isWithinGrid(shipLength, row, col, orientation)
+                && !this.#hasOverlapShips(shipLength, row, col, orientation);
+    }
+
     placeShip(ship, row, col, orientation) {
         const shipLength = ship.length;
 
@@ -57,10 +65,7 @@ class Gameboard {
             throw new RangeError('Ship placement is out of the grid.');
         }
 
-        const rowOffset = orientation === 'vertical' ? 1 : 0;
-        const colOffset = orientation === 'horizontal' ? 1 : 0;
-
-        if (this.#hasOverlapShips(shipLength, row, col ,rowOffset, colOffset)) {
+        if (this.#hasOverlapShips(shipLength, row, col, orientation)) {
             throw new Error('Ship placement overlaps with another ship.');
         }
 

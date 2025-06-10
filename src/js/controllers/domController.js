@@ -1,3 +1,5 @@
+import gameController from "./gameController";
+
 const domController = (function() {
     const playerOneBoard  = document.querySelector('.player-one-board');
     const playerTwoBoard  = document.querySelector('.player-two-board');
@@ -21,23 +23,50 @@ const domController = (function() {
             row.classList.add('row');
             for (let j = 0; j < 10; j++) {
                 const cell = document.createElement('button');
+                cell.classList.add('cell');
                 const cellHasShip = playerBoard.hasShipAt(i, j);
                 const cellIsHit = playerBoard.isHitAt(i, j);
-                cell.addEventListener('click', () => {
-                    playerBoard.receiveAttack(i, j);
-                    renderBoard(player);
-                })
+                // cell.addEventListener('click', () => {
+                //     playerBoard.receiveAttack(i, j);
+                //     renderBoard(player);
+                // })
 
-                if (cellHasShip && cellIsHit) {
-                    cell.classList.add('cell', 'ship-hit');
-                } else if (!cellHasShip && cellIsHit) {
-                    cell.classList.add('cell', 'missed');
-                } else if (cellHasShip) {
-                    cell.classList.add('cell', 'ship');
+                if (gameController.state = 'shipPlacement') {
+                    cell.addEventListener('mouseenter', () => {
+                        const preview = gameController.previewCells(i, j);
+
+                        if (gameController.placementIsAvailable(i, j)) {
+                            preview.forEach(([row, col]) => {
+                                const cell = document.querySelector(`.row:nth-child(${row + 1}) .cell:nth-child(${col + 1})`);
+                                cell.classList.add('available');
+                            });
+                        } else {
+                            preview.forEach(([row, col]) => {
+                                const cell = document.querySelector(`.row:nth-child(${row + 1}) .cell:nth-child(${col + 1})`);
+                                cell.classList.add('unavailable');
+                            });
+                        }
+                    })
+
+                    cell.addEventListener('mouseleave', () => {
+                        const preview = gameController.previewCells(i, j);
+
+                        preview.forEach(([row, col]) => {
+                            const cell = document.querySelector(`.row:nth-child(${row + 1}) .cell:nth-child(${col + 1})`);
+                            cell.classList.remove('available', 'unavailable');
+                        });
+                    })
                 } else {
-                    cell.classList.add('cell', 'empty');
+                    if (cellHasShip && cellIsHit) {
+                        cell.classList.add('ship-hit');
+                    } else if (!cellHasShip && cellIsHit) {
+                        cell.classList.add('missed');
+                    } else if (cellHasShip) {
+                        cell.classList.add('ship');
+                    } else {
+                        cell.classList.add('empty');
+                    }
                 }
-
                 row.appendChild(cell);
             }
             board.appendChild(row);
