@@ -78,10 +78,10 @@ class Gameboard {
         const ship = cell.shipRef;
         if (ship && !cell.isHit) {
             ship.hit();
-            cell.isHit = true;
         } else if (!ship && !cell.isHit) {
             this._missed.push([row, col]);
         }
+        cell.isHit = true;
     }
 
     isWin() {
