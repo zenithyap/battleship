@@ -16,15 +16,29 @@ const gameController = (function () {
     let activePlayer = playerOne;
 
     function initGame() {
+        initPlayerTwoShips();
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
         domController.initialiseEventListeners();
         domController.renderOrientationButton(curShipOrientation);
-        domController.renderMessage(`Place your ships (${activePlayer.id})`)
+        domController.renderMessage(`Place your ships (${activePlayer.id})`);
+    }
+
+    function initPlayerTwoShips() {
+        const ship = new Ship(5);
+        playerTwo.gameboard.placeShip(ship, 0, 0, 'horizontal');
     }
 
     function getActivePlayer() {
         return activePlayer;
+    }
+
+    function getOppPlayer() {
+        return activePlayer === playerOne ? playerTwo : playerOne;
+    }
+
+    function getGameState() {
+        return state;
     }
 
     function switchActivePlayer() {
@@ -64,6 +78,13 @@ const gameController = (function () {
         return board.hasShipAt(row, col);
     }
 
+    function attackOnGameboardAt(row, col) {
+        const board = activePlayer.gameboard;
+
+        board.receiveAttack(row, col);
+        domController.renderBoard(activePlayer);
+    }
+
     function prepareNextShip() {
         curShip += 1;
         curShipLength = shipLengths[curShip];
@@ -74,17 +95,34 @@ const gameController = (function () {
             const ship = new Ship(curShipLength);
             const board = activePlayer.gameboard;
             board.placeShip(ship, row, col, curShipOrientation);
-            prepareNextShip();
             domController.renderBoard(activePlayer);
             domController.renderErrorMessage('');
+            prepareNextShip();
+
+            if (curShip === 5) {
+                state = 'play';
+                playRound();
+            }
         } catch (error) {
             domController.renderErrorMessage(error);
         }
     }
 
-    return { initGame, getActivePlayer, state,
+    function playRound() {
+        domController.renderMessage(activePlayer === playerOne ? "Its player one's turn!" : "Its player two's turn");
+        domController.renderBoard(getOppPlayer());
+        domController.renderBoard(activePlayer);
+
+        if (activePlayer.gameboard.isWin()) {
+            domController.renderMessage('Game ended!');
+        }
+        switchActivePlayer();
+    }
+
+    return { initGame, getActivePlayer, getGameState,
             placementIsAvailable, hasShipOnGameboardAt, previewCells, 
-            placeShipOnGameBoard, switchOrientation };
+            placeShipOnGameBoard, switchOrientation, attackOnGameboardAt,
+            playRound };
 })();
 
 export default gameController;

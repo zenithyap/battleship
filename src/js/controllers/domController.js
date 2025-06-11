@@ -63,6 +63,13 @@ const domController = (function () {
         });
     }
 
+    function addAttackListeners(cell, i, j) {
+        cell.addEventListener('click', () => {
+            gameController.attackOnGameboardAt(i, j);
+            gameController.playRound();
+        })
+    }
+
     function renderBoard(player) {
         const board = player.id === 'player1' ? playerOneBoard : playerTwoBoard;
         board.textContent = '';
@@ -76,11 +83,13 @@ const domController = (function () {
             for (let j = 0; j < 10; j++) {
                 const cell = document.createElement('button');
                 cell.classList.add('cell');
-                const cellHasShip = gameController.hasShipOnGameboardAt(i, j);
+                const cellHasShip = playerBoard.hasShipAt(i, j);
                 const cellIsHit = playerBoard.isHitAt(i, j);
 
-                if (gameController.state === 'shipPlacement' && isActivePlayerTurn) {
+                if (gameController.getGameState() === 'shipPlacement' && isActivePlayerTurn) {
                     addPlacementListeners(cell, i, j, board);
+                } else if (gameController.getGameState() === 'play' && !isActivePlayerTurn) {
+                    addAttackListeners(cell, i, j);
                 }
 
                 if (cellHasShip && cellIsHit) {
