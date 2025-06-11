@@ -69,6 +69,9 @@ class Gameboard {
             throw new Error('Ship placement overlaps with another ship.');
         }
 
+        const rowOffset = orientation === 'vertical' ? 1 : 0;
+        const colOffset = orientation === 'horizontal' ? 1 : 0;
+
         for (let i = 0; i < shipLength; i++) {
             const curRow = row + rowOffset * i;
             const curCol = col + colOffset * i;

@@ -1,15 +1,23 @@
+import domController from './domController';
 import Player from '../../js/models/player/player';
+import Ship from '../../js/models/ship/ship';
 
 const gameController = (function () {
+    const NUM_SHIPS = 5;
     let state = 'shipPlacement';
-    const placementState = {
-        currentShipLength: 5,
-        currentShipOrientation: 'horizontal'
-    }
+    const shipLengths = [5, 4, 3, 3, 2];
+    let curShip = 0;
+    let curShipLength = shipLengths[curShip];
+    let curShipOrientation = 'horizontal';
+
     const playerOne = new Player('player1');
     const playerTwo = new Player('player2', 'computer');
 
     let activePlayer = playerOne;
+
+    function getActivePlayer() {
+        return activePlayer;
+    }
 
     function switchActivePlayer() {
         activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
@@ -17,20 +25,18 @@ const gameController = (function () {
 
     function placementIsAvailable(row, col) {
         const board = activePlayer.gameboard;
-        return board.isValidPosition(placementState.currentShipLength, 
+        return board.isValidPosition(curShipLength, 
                                     row, 
                                     col, 
-                                    placementState.currentShipOrientation);
+                                    curShipOrientation);
     }
 
     function previewCells(startRow, startCol) {
-        const length = placementState.currentShipLength;
-        const orientation = placementState.currentShipOrientation;
         const cells = [];
 
-        for (let offset = 0; offset < length; offset++) {
-            const row = orientation === 'vertical' ? startRow + offset : startRow;
-            const col = orientation === 'vertical' ? startCol : startCol + offset;
+        for (let offset = 0; offset < curShipLength; offset++) {
+            const row = curShipOrientation === 'vertical' ? startRow + offset : startRow;
+            const col = curShipOrientation === 'vertical' ? startCol : startCol + offset;
 
             if (row < 10 && col < 10) {
                 cells.push([row, col]);
@@ -40,7 +46,30 @@ const gameController = (function () {
         return cells;
     }
 
-    return { state, placementState, placementIsAvailable, previewCells };
+    function hasShipOnGameboardAt(row, col) {
+        const board = activePlayer.gameboard;
+        return board.hasShipAt(row, col);
+    }
+
+    function prepareNextShip() {
+        curShip += 1;
+        curShipLength = shipLengths[curShip];
+    }
+
+    function placeShipOnGameBoard(row, col) {
+        try {
+            const ship = new Ship(curShipLength);
+            const board = activePlayer.gameboard;
+            board.placeShip(ship, row, col, curShipOrientation);
+            prepareNextShip();
+            domController.renderBoard(activePlayer);
+            domController.renderMessage('');
+        } catch (error) {
+            domController.renderMessage(error);
+        }
+    }
+
+    return { getActivePlayer, state, placementIsAvailable, hasShipOnGameboardAt, previewCells, placeShipOnGameBoard };
 })();
 
 export default gameController;
