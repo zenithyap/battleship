@@ -18,6 +18,8 @@ const gameController = (function () {
     function initGame() {
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
+        domController.initialiseEventListeners();
+        domController.renderOrientationButton(curShipOrientation);
         domController.renderMessage(`Place your ships (${activePlayer.id})`)
     }
 
@@ -27,6 +29,11 @@ const gameController = (function () {
 
     function switchActivePlayer() {
         activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
+    }
+
+    function switchOrientation() {
+        curShipOrientation = curShipOrientation === 'vertical' ? 'horizontal' : 'vertical';
+        domController.renderOrientationButton(curShipOrientation);
     }
 
     function placementIsAvailable(row, col) {
@@ -75,9 +82,9 @@ const gameController = (function () {
         }
     }
 
-    return { initGame, getActivePlayer, state, 
+    return { initGame, getActivePlayer, state,
             placementIsAvailable, hasShipOnGameboardAt, previewCells, 
-            placeShipOnGameBoard };
+            placeShipOnGameBoard, switchOrientation };
 })();
 
 export default gameController;
