@@ -9,8 +9,9 @@ const domController = (function () {
         message.textContent = 'Choose ships coordinates' + player.id === 'player1' ? '(Player 1)' : ('Player 2');
     }
 
-    function clearMessage() {
-        message.textContent = '';
+    function renderErrorMessage(message) {
+        const errorMessage = document.querySelector('.error-message');
+        errorMessage.textContent = message;
     }
 
     function renderMessage(message) {
@@ -85,7 +86,7 @@ const domController = (function () {
         };
     };
 
-    return { renderMessage, renderBoard };
+    return { renderMessage, renderErrorMessage, renderBoard };
 })();
 
 export default domController;

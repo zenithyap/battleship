@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    text-align: center
+}
+
 .title {
     text-align: center;
     padding: 24px;

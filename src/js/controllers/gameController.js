@@ -15,6 +15,12 @@ const gameController = (function () {
 
     let activePlayer = playerOne;
 
+    function initGame() {
+        domController.renderBoard(playerOne);
+        domController.renderBoard(playerTwo);
+        domController.renderMessage(`Place your ships (${activePlayer.id})`)
+    }
+
     function getActivePlayer() {
         return activePlayer;
     }
@@ -63,13 +69,15 @@ const gameController = (function () {
             board.placeShip(ship, row, col, curShipOrientation);
             prepareNextShip();
             domController.renderBoard(activePlayer);
-            domController.renderMessage('');
+            domController.renderErrorMessage('');
         } catch (error) {
-            domController.renderMessage(error);
+            domController.renderErrorMessage(error);
         }
     }
 
-    return { getActivePlayer, state, placementIsAvailable, hasShipOnGameboardAt, previewCells, placeShipOnGameBoard };
+    return { initGame, getActivePlayer, state, 
+            placementIsAvailable, hasShipOnGameboardAt, previewCells, 
+            placeShipOnGameBoard };
 })();
 
 export default gameController;
