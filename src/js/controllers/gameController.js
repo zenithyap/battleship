@@ -16,7 +16,7 @@ const gameController = (function () {
     let activePlayer = playerOne;
 
     function initGame() {
-        initPlayerTwoShips();
+        initComputerShips();
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
         domController.initialiseEventListeners();
@@ -24,9 +24,35 @@ const gameController = (function () {
         domController.renderMessage(`Place your ships (${activePlayer.id})`);
     }
 
-    function initPlayerTwoShips() {
-        const ship = new Ship(5);
-        playerTwo.gameboard.placeShip(ship, 0, 0, 'horizontal');
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function getRandomOrientation() {
+        return Math.random() < 0.5 ? 'horizontal' : 'vertical';
+    }
+
+    function initComputerShips() {
+        for (let i = 0; i < NUM_SHIPS; i++) {
+            const shipLength = shipLengths[i];
+            const ship = new Ship(shipLength);
+            const board = playerTwo.gameboard;
+
+            let placed = false;
+
+            while (!placed) {
+                const orientation = getRandomOrientation();
+                const rowOffset = orientation === 'vertical' ? 10 - shipLength : 10;
+                const colOffset = orientation === 'vertical' ? 10 : 10 - shipLength;
+                const row = getRandomInt(rowOffset);
+                const col = getRandomInt(colOffset);
+                try {
+                    board.placeShip(ship, row, col, orientation);
+                    placed = true;
+                } catch (error) {
+                }
+            }
+        }
     }
 
     function getActivePlayer() {
