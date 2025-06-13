@@ -134,14 +134,30 @@ const gameController = (function () {
         }
     }
 
+    /*
+    player one plays by clicking, call round is next
+    computer auto plays the round and calls playRound
+    */
+
     function playRound() {
+        if (getOppPlayer().gameboard.isWin()) {
+            state = 'gameEnd';
+            domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
+            return;
+        }
         domController.renderMessage(activePlayer === playerOne ? "Its player one's turn!" : "Its player two's turn");
         domController.renderBoard(getOppPlayer());
         domController.renderBoard(activePlayer);
 
-        if (activePlayer.gameboard.isWin()) {
-            domController.renderMessage('Game ended!');
+        if (playerTwo.type === 'computer' && activePlayer === playerTwo) {
+            playerOne.gameboard.receiveAttack(getRandomInt(10), getRandomInt(10));
+            domController.renderBoard(getOppPlayer());
+
+            switchActivePlayer();
+            playRound();
+            return;
         }
+
         switchActivePlayer();
     }
 
