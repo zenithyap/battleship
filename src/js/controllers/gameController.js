@@ -1,6 +1,7 @@
 import domController from './domController';
 import Player from '../../js/models/player/player';
 import Ship from '../../js/models/ship/ship';
+import computerMoves from '../helpers/computerMoves';
 
 const gameController = (function () {
     const NUM_SHIPS = 5;
@@ -16,6 +17,7 @@ const gameController = (function () {
     let activePlayer = playerOne;
 
     function initGame() {
+        if (playerTwo.type === 'computer') computerMoves.generate();
         initComputerShips();
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
@@ -145,7 +147,8 @@ const gameController = (function () {
         domController.renderBoard(activePlayer);
 
         if (playerTwo.type === 'computer' && activePlayer === playerTwo) {
-            playerOne.gameboard.receiveAttack(getRandomInt(10), getRandomInt(10));
+            let [row, col] = computerMoves.get();
+            playerOne.gameboard.receiveAttack(row, col);
             domController.renderBoard(getOppPlayer());
 
             switchActivePlayer();
