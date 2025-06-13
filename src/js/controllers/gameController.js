@@ -134,11 +134,6 @@ const gameController = (function () {
         }
     }
 
-    /*
-    player one plays by clicking, call round is next
-    computer auto plays the round and calls playRound
-    */
-
     function playRound() {
         if (getOppPlayer().gameboard.isWin()) {
             state = 'gameEnd';

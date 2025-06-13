@@ -96,7 +96,7 @@ const domController = (function () {
                     cell.classList.add('ship-hit');
                 } else if (!cellHasShip && cellIsHit) {
                     cell.classList.add('missed');
-                } else if (cellHasShip) {
+                } else if (cellHasShip && player.type != 'computer') {
                     cell.classList.add('ship');
                 } else {
                     cell.classList.add('empty');
