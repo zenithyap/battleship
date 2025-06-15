@@ -80,3 +80,9 @@ body {
 .orientation-btn:hover {
     background-color: #c2c2c2;
 }
+
+.message,
+.error-message,
+.orientation-btn {
+    margin-bottom: 10px;
+}
