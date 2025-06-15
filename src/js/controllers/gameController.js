@@ -19,10 +19,9 @@ const gameController = (function () {
     function initGame() {
         if (playerTwo.type === 'computer') computerMoves.generate();
         initComputerShips();
+        domController.renderOrientationButton(curShipOrientation);
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
-        domController.initialiseEventListeners();
-        domController.renderOrientationButton(curShipOrientation);
         domController.renderMessage(`Place your ships (${activePlayer.id})`);
     }
 
@@ -129,6 +128,7 @@ const gameController = (function () {
 
             if (curShip === 5) {
                 state = 'play';
+                domController.removeOrientationButton();
                 playRound();
             }
         } catch (error) {
@@ -142,6 +142,7 @@ const gameController = (function () {
             domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
             return;
         }
+
         domController.renderMessage(activePlayer === playerOne ? "Its player one's turn!" : "Its player two's turn");
         domController.renderBoard(getOppPlayer());
         domController.renderBoard(activePlayer);

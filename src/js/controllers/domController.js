@@ -14,17 +14,23 @@ const domController = (function () {
         errorMessage.textContent = message;
     }
 
-    function initialiseEventListeners() {
+    function removeOrientationButton() {
         const button = document.querySelector('.orientation-btn');
-
-        button.addEventListener('click', () => {
-            gameController.switchOrientation();
-        })
+        if (button) button.remove();
     }
 
     function renderOrientationButton(orientation) {
-        const button = document.querySelector('.orientation-btn');
+        removeOrientationButton();
+        const body = document.querySelector('body');
+        const button = document.createElement('button');
+        button.classList.add('orientation-btn');
         button.textContent = orientation;
+
+        button.addEventListener('click', () => {
+            gameController.switchOrientation();
+        });
+
+        body.appendChild(button);
     }
 
     function renderMessage(message) {
@@ -108,8 +114,8 @@ const domController = (function () {
         };
     };
 
-    return { renderMessage, renderErrorMessage, renderOrientationButton, 
-            renderBoard, initialiseEventListeners };
+    return { renderMessage, renderErrorMessage, renderOrientationButton,
+            removeOrientationButton, renderBoard };
 })();
 
 export default domController;
