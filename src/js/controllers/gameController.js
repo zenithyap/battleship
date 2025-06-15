@@ -11,14 +11,22 @@ const gameController = (function () {
     let curShipLength = shipLengths[curShip];
     let curShipOrientation = 'horizontal';
 
-    const playerOne = new Player('player1');
-    const playerTwo = new Player('player2', 'computer');
-
-    let activePlayer = playerOne;
+    let playerOne;
+    let playerTwo;
+    let activePlayer;
 
     function initGame() {
+        state = 'shipPlacement';
+
+        playerOne = new Player('player1');
+        playerTwo = new Player('player2', 'computer');
+        activePlayer = playerOne;
+        curShip = 0;
+        curShipLength = shipLengths[curShip];
+
         if (playerTwo.type === 'computer') computerMoves.generate();
         initComputerShips();
+
         domController.renderOrientationButton(curShipOrientation);
         domController.renderBoard(playerOne);
         domController.renderBoard(playerTwo);
@@ -140,6 +148,7 @@ const gameController = (function () {
         if (getOppPlayer().gameboard.isWin()) {
             state = 'gameEnd';
             domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
+            domController.renderResetButton();
             return;
         }
 

@@ -33,6 +33,20 @@ const domController = (function () {
         body.appendChild(button);
     }
 
+    function renderResetButton() {
+        const body = document.querySelector('body');
+        const button = document.createElement('button');
+        button.classList.add('reset-btn');
+        button.textContent = 'reset';
+
+        button.addEventListener('click', () => {
+            gameController.initGame();
+            button.remove();
+        });
+
+        body.appendChild(button);
+    }
+
     function renderMessage(message) {
         const mes = document.querySelector('.message');
         mes.textContent = message;
@@ -115,7 +129,7 @@ const domController = (function () {
     };
 
     return { renderMessage, renderErrorMessage, renderOrientationButton,
-            removeOrientationButton, renderBoard };
+            removeOrientationButton, renderResetButton, renderBoard };
 })();
 
 export default domController;
