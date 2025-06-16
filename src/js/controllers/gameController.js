@@ -144,11 +144,15 @@ const gameController = (function () {
         }
     }
 
+    function handleGameEnd() {
+        state = 'gameEnd';
+        domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
+        domController.renderResetButton();
+    }
+
     function playRound() {
         if (getOppPlayer().gameboard.isWin()) {
-            state = 'gameEnd';
-            domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
-            domController.renderResetButton();
+            handleGameEnd();
             return;
         }
 
@@ -160,6 +164,11 @@ const gameController = (function () {
             let [row, col] = computerMoves.get();
             playerOne.gameboard.receiveAttack(row, col);
             domController.renderBoard(getOppPlayer());
+
+            if (getOppPlayer().gameboard.isWin()) {
+                handleGameEnd();
+                return;
+            }
 
             switchActivePlayer();
             playRound();
