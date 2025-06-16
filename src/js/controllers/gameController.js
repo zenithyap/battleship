@@ -146,6 +146,8 @@ const gameController = (function () {
 
     function handleGameEnd() {
         state = 'gameEnd';
+        domController.renderBoard(getOppPlayer());
+        domController.renderBoard(activePlayer);
         domController.renderMessage(`Game ended! ${activePlayer.id} wins!`);
         domController.renderResetButton();
     }
