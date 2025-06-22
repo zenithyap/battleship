@@ -125,6 +125,12 @@ const gameController = (function () {
         curShipLength = shipLengths[curShip];
     }
 
+    function startGame() {
+        state = 'play';
+        domController.removeOrientationButton();
+        playRound();
+    }
+
     function placeShipOnGameBoard(row, col) {
         try {
             const ship = new Ship(curShipLength);
@@ -135,9 +141,7 @@ const gameController = (function () {
             prepareNextShip();
 
             if (curShip === 5) {
-                state = 'play';
-                domController.removeOrientationButton();
-                playRound();
+                startGame();
             }
         } catch (error) {
             domController.renderErrorMessage(error);
